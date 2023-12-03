@@ -31,6 +31,12 @@ pipeline {
             }
         }
 
+      stage('SonarQube Analysis') {
+        withSonarQubeEnv() {
+          sh "mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application'"
+        }
+      }
+
       stage('Docker Build and Push')
       {
         steps {
