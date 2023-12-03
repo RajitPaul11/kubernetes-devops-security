@@ -68,7 +68,6 @@
 			</plugin>
 			<!--PITest Mutation Plugin-->
 			<plugin>
-			<groupID>org.pitest</groupID>
 			<artifactId>pitest-maven</artifactId>
 			<version>1.5.0</version>
 			<dependencies>
