@@ -31,12 +31,16 @@ pipeline {
             }
         }
 
-      stage('SonarQube Analysis') {
+      stage('SonarQube - SAST') {
         steps{
-         sh "mvn sonar:sonar \
-         -Dsonar.projectKey=numeric-application \
-         -Dsonar.host.url=http://ec2-3-109-117-199.ap-south-1.compute.amazonaws.com:9000 \
-         -Dsonar.login=sqp_1c4300830cc761a658b1dfdc705d7f287c4be6b5"
+         withSonarQubeEnv('SonarQube') {
+           sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://ec2-3-109-117-199.ap-south-1.compute.amazonaws.com:9000 -Dsonar.login=sqp_1c4300830cc761a658b1dfdc705d7f287c4be6b5"
+         }
+         timeout(time: 2, unit: 'MINUTES'){
+          script {
+            waitForQualityGate abortPipeline: true
+          } 
+         }
         }
       }
 
