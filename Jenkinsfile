@@ -41,13 +41,7 @@ pipeline {
          }
         }
       }
-
-      // stage('Vulnerability Scan - Docker'){
-      //   steps {
-      //     sh "mvn dependency-check:check"
-      //   }
-      // }
-
+      
       stage('Vulnerability Scan - Docker'){
         steps {
           parallel(
@@ -82,20 +76,14 @@ pipeline {
             },
             "Kubesec Scan": {
               sh "bash kubesec-scan.sh"
+            },
+            "Trivy Scan": {
+              sh "bash trivy-k8s-scan.sh"
             }
           )   
         }
       }
       
-      // stage('Kubernetes Deployment - DEV'){
-      //   steps{
-      //     withKubeConfig([credentialsId: 'kubeconfig']){
-      //       sh "sed -i 's#replace#whaleal3rt/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
-      //       sh "kubectl apply -f k8s_deployment_service.yaml"
-      //     }
-      //   }
-      // }
-
       stage('K8S Deployment - DEV') {
         steps {
           parallel(
