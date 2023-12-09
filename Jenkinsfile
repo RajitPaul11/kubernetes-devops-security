@@ -117,7 +117,7 @@ pipeline {
         }
       }
     }
-  }
+  
 
     stage('OWASP ZAP - DAST') {
       steps{
@@ -126,6 +126,7 @@ pipeline {
         }
       }
     }
+}
       post{
         always{
             junit 'target/surefire-reports/*.xml'
