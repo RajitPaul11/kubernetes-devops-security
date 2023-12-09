@@ -4,7 +4,7 @@
 echo $imageName #getting image name from env variable
 
 docker run --rm -v $WORKSPACE:/root/.cache/ aquasec/trivy:0.17.2 -q image --exit-code 0 --severity LOW,MEDIUM,HIGH --light $ImageName
-docker run --rm -it -v $WORKSPACE:/root/.cache/ aquasec/trivy:0.17.2 -q image --exit-code 1 --severity CRITICAL --light $ImageName
+docker run --rm -v $WORKSPACE:/root/.cache/ aquasec/trivy:0.17.2 -q image --exit-code 1 --severity CRITICAL --light $ImageName
 
     #Trivy scan result processing
     exit_code=$?

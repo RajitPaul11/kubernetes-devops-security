@@ -6,7 +6,7 @@ pipeline {
     containerName = "devsecops-container"
     serviceName = "devsecops-svc"
     imageName = "whaleal3rt/numeric-app:${GIT_COMMIT}"
-    applicationURL="http://ec2-3-109-117-199.ap-south-1.compute.amazonaws.com/"
+    applicationURL="http://ec2-3-109-117-199.ap-south-1.compute.amazonaws.com"
     applicationURI="/increment/99"
   }
 
@@ -100,7 +100,24 @@ pipeline {
           )
         }
       }
+
+    stage('Integration Tests - DEV') {
+      steps {
+        script {
+          try {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "bash integration-test.sh"
+            }
+          } catch (e) {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "kubectl -n default rollour undo deploy ${deploymentName}"
+            }
+            throw e
+          }
+        }
+      }
     }
+  }
       post{
         always{
             junit 'target/surefire-reports/*.xml'
