@@ -6,7 +6,7 @@ pipeline {
     containerName = "devsecops-container"
     serviceName = "devsecops-svc"
     imageName = "whaleal3rt/numeric-app:${GIT_COMMIT}"
-    applicationURL="http://ec2-3-109-117-199.ap-south-1.compute.amazonaws.com"
+    applicationURL="http://172.31.42.20"
     applicationURI="/increment/99"
   }
 
@@ -118,6 +118,14 @@ pipeline {
       }
     }
   }
+
+    stage('OWASP ZAP - DAST') {
+      steps{
+        withKubeConfig([credentialsId: 'kubeconfig']) {
+          sh 'bash zap.sh'
+        }
+      }
+    }
       post{
         always{
             junit 'target/surefire-reports/*.xml'
