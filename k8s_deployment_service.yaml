@@ -20,15 +20,15 @@ spec:
         emptyDir: {}
       serviceAccountName: default
       containers:
-      volumeMounts:
-      - mountPath: /tmp
-        name: vol
       - image: replace
         name: devsecops-container
         securityContext:
           runAsNonRoot: true
           runAsUser: 100
           readOnlyRootFilesystem: true
+      volumeMounts:
+      - mountPath: /tmp
+        name: vol
 ---
 apiVersion: v1
 kind: Service
