@@ -110,7 +110,7 @@ pipeline {
             }
           } catch (e) {
             withKubeConfig([credentialsId: 'kubeconfig']) {
-              sh "kubectl -n default rollour undo deploy ${deploymentName}"
+              sh "kubectl -n default rollout undo deploy ${deploymentName}"
             }
             throw e
           }
