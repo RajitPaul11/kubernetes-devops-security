@@ -135,7 +135,7 @@ pipeline {
       }
     }
 
-    stages('K8S CIS Benchmark') {
+    stage('K8S CIS Benchmark') {
       stpes{
         script {
           parallel(
